@@ -4,33 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pterodactyl Server Creator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container">
-        <h2>Create Pterodactyl Server</h2>
+        <h2>Create Server</h2>
         <form id="createServerForm">
             
             <label for="serverName">Nama Server:</label>
-            <input type="text" id="serverName" name="serverName" required>
+            <input type="text" id="serverName" name="serverName" placeholder="Contoh: MyNodeApp" required>
 
-            <label for="ram">Pilih RAM:</label>
-            <select id="ram" name="ram" required>
-                <option value="1024">1 GB</option>
-                <option value="2048">2 GB</option>
-                <option value="3072">3 GB</option>
-                <option value="4096">4 GB</option>
-                <option value="5120">5 GB</option>
-                <option value="6144">6 GB</option>
-                <option value="7192">7 GB</option>
-                <option value="8192">8 GB</option>
-                <option value="9216">9 GB</option>
-                <option value="0">Unlimited</option>
-            </select>
+            <label>Pilih RAM:</label>
+            <div class="ram-options">
+                <input type="radio" id="ram1" name="ram" value="1024" required>
+                <label for="ram1">1 GB</label>
 
+                <input type="radio" id="ram2" name="ram" value="2048">
+                <label for="ram2">2 GB</label>
+
+                <input type="radio" id="ram3" name="ram" value="3072">
+                <label for="ram3">3 GB</label>
+
+                <input type="radio" id="ram4" name="ram" value="4096">
+                <label for="ram4">4 GB</label>
+
+                <input type="radio" id="ram5" name="ram" value="5120">
+                <label for="ram5">5 GB</label>
+
+                <input type="radio" id="ram6" name="ram" value="6144">
+                <label for="ram6">6 GB</label>
+
+                <input type="radio" id="ram7" name="ram" value="7192">
+                <label for="ram7">7 GB</label>
+
+                <input type="radio" id="ram8" name="ram" value="8192">
+                <label for="ram8">8 GB</label>
+
+                <input type="radio" id="ram9" name="ram" value="9216">
+                <label for="ram9">9 GB</label>
+
+                <input type="radio" id="ram0" name="ram" value="0">
+                <label for="ram0">Unlimited</label>
+            </div>
             <label for="secretKey">Secret Key:</label>
-            <input type="password" id="secretKey" name="secretKey" required>
+            <input type="password" id="secretKey" name="secretKey" placeholder="Masukkan Secret Key Anda" required>
             
             <button type="submit" id="submitButton">Buat Server</button>
         </form>
@@ -46,11 +68,13 @@
             const resultDiv = document.getElementById('result');
             const submitButton = document.getElementById('submitButton');
 
+            // Logika untuk mengambil nilai RAM dari radio button
+            // tidak perlu diubah, 'form.ram.value' akan otomatis
+            // mengambil nilai dari radio button yang terpilih.
             const serverName = form.serverName.value;
             const ram = form.ram.value;
             const secretKey = form.secretKey.value;
 
-            // Tampilkan loading
             resultDiv.className = 'info';
             resultDiv.innerText = '⏳ Sedang memproses... Mohon tunggu...';
             submitButton.disabled = true;
@@ -68,7 +92,6 @@
                     throw new Error(data.error || 'Terjadi kesalahan');
                 }
 
-                // Jika sukses
                 resultDiv.className = 'success';
                 resultDiv.innerHTML = `
                     <h4>✅ Semua Berhasil Disiapkan!</h4>
@@ -84,7 +107,6 @@
                 form.reset();
 
             } catch (error) {
-                // Jika gagal
                 resultDiv.className = 'error';
                 resultDiv.innerText = `❌ Gagal: ${error.message}`;
             } finally {
