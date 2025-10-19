@@ -2,7 +2,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 /* ======================================= */
-/* EFEK BACKGROUND BARU: BINTANG KELAP-KELIP */
+/* SMOOTH SCROLL (SCROLL LENTUR)           */
+/* ======================================= */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ======================================= */
+/* EFEK BACKGROUND: BINTANG KELAP-KELIP    */
 /* ======================================= */
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -12,7 +19,8 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    padding: 80px 20px 20px 20px; 
+    /* Beri jarak lebih di bawah agar tidak tertutup tombol WA */
+    padding: 80px 20px 100px 20px; 
     box-sizing: border-box;
     
     background-color: #000; /* Background hitam */
@@ -29,7 +37,7 @@ body {
     width: 100%;
     height: 100%;
     display: block;
-    z-index: -1; /* Pastikan di belakang konten */
+    z-index: -1; 
 }
 
 .stars {
@@ -47,13 +55,9 @@ body {
     from { background-position: 0 0; }
     to { background-position: -10000px 5000px; }
 }
-/* ======================================= */
-/* AKHIR EFEK BACKGROUND BARU            */
-/* ======================================= */
-
 
 /* ======================================= */
-/* STYLE UNTUK JAM REAL-TIME        */
+/* STYLE UNTUK JAM REAL-TIME               */
 /* ======================================= */
 #realtime-clock {
     position: fixed;
@@ -82,8 +86,9 @@ body {
     }
 }
 
-
-/* Container / Card Utama dengan Efek Kaca */
+/* ======================================= */
+/* CONTAINER / CARD UTAMA (EFEK KACA)      */
+/* ======================================= */
 .container {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(15px);
@@ -115,11 +120,11 @@ label {
 }
 
 /* ======================================= */
-/* INPUT FIELD (SELECT DITAMBAHKAN)      */
+/* INPUT FIELD (TERMASUK DROPDOWN)         */
 /* ======================================= */
 input[type="text"],
 input[type="password"],
-select { /* TAMBAHKAN 'select' DI SINI */
+select {
     width: 100%;
     padding: 0.85rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -129,7 +134,7 @@ select { /* TAMBAHKAN 'select' DI SINI */
     margin-bottom: 1rem;
     color: #ffffff;
     font-size: 1rem;
-    font-family: 'Poppins', sans-serif; /* Pastikan font sama */
+    font-family: 'Poppins', sans-serif;
 }
 input::placeholder { color: rgba(255, 255, 255, 0.5); }
 
@@ -144,14 +149,9 @@ select:required:invalid {
     color: rgba(255, 255, 255, 0.5);
 }
 
-
 /* ======================================= */
-/* STYLE RAM (BLOK .ram-options DIHAPUS)   */
+/* TOMBOL SUBMIT                           */
 /* ======================================= */
-/* (Semua style .ram-options, input[type="radio"], dll. sudah dihapus) */
-
-
-/* Tombol Submit */
 button {
     width: 100%;
     padding: 0.85rem;
@@ -172,7 +172,9 @@ button:hover:not(:disabled) {
     transform: translateY(-2px);
 }
 
-/* Box untuk hasil (sukses/gagal) */
+/* ======================================= */
+/* BOX HASIL (SUKSES/GAGAL)                */
+/* ======================================= */
 #result {
     margin-top: 1.5rem;
     padding: 1.25rem;
@@ -191,60 +193,7 @@ button:hover:not(:disabled) {
 
 
 /* ======================================= */
-/* STYLE UNTUK DASHBOARD PRODUK       */
-/* ======================================= */
-.product-dashboard {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5);
-    width: 100%;
-    max-width: 700px;
-    color: #ffffff;
-    margin-top: 2rem;
-    z-index: 1;
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem;
-}
-
-.product-item {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 1rem;
-    border-radius: 10px;
-    text-align: center;
-    transition: all 0.2s ease-in-out;
-}
-
-.product-item:hover {
-    transform: translateY(-5px);
-    background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 15px rgba(106, 17, 203, 0.5);
-}
-
-.product-name {
-    font-weight: 600;
-    font-size: 1rem;
-    color: #f0f0f0;
-    margin-bottom: 0.5rem;
-}
-
-.product-price {
-    font-weight: 700;
-    font-size: 1.3rem;
-    color: #61FFB0;
-    text-shadow: 0 0 8px rgba(97, 255, 176, 0.7);
-}
-
-/* ======================================= */
-/* STYLE UNTUK TOMBOL WHATSAPP        */
+/* STYLE UNTUK TOMBOL WHATSAPP             */
 /* ======================================= */
 .whatsapp-fab {
     position: fixed;
@@ -273,12 +222,11 @@ button:hover:not(:disabled) {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* Media Queries untuk Responsif */
+/* ======================================= */
+/* MEDIA QUERIES (RESPONSIVE)              */
+/* ======================================= */
 @media (max-width: 768px) {
-    .product-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    }
-    .container, .product-dashboard {
+    .container {
         padding: 1.5rem;
     }
     #realtime-clock {
@@ -297,10 +245,7 @@ button:hover:not(:disabled) {
 }
 
 @media (max-width: 480px) {
-    .product-grid {
-        grid-template-columns: 1fr;
-    }
-    .container, .product-dashboard {
+    .container {
         max-width: 95%;
     }
     body {
