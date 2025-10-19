@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pterodactyl Server Creator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Create Pterodactyl Server</h2>
+        <form id="createServerForm">
+            
+            <label for="serverName">Nama Server:</label>
+            <input type="text" id="serverName" name="serverName" required>
+
+            <label for="ram">Pilih RAM:</label>
+            <select id="ram" name="ram" required>
+                <option value="1024">1 GB</option>
+                <option value="2048">2 GB</option>
+                <option value="3072">3 GB</option>
+                <option value="4096">4 GB</option>
+                <option value="5120">5 GB</option>
+                <option value="6144">6 GB</option>
+                <option value="7192">7 GB</option>
+                <option value="8192">8 GB</option>
+                <option value="9216">9 GB</option>
+                <option value="0">Unlimited</option>
+            </select>
+
+            <label for="secretKey">Secret Key:</label>
+            <input type="password" id="secretKey" name="secretKey" required>
+            
+            <button type="submit" id="submitButton">Buat Server</button>
+        </form>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('createServerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const resultDiv = document.getElementById('result');
+            const submitButton = document.getElementById('submitButton');
+
+            const serverName = form.serverName.value;
+            const ram = form.ram.value;
+            const secretKey = form.secretKey.value;
+
+            // Tampilkan loading
+            resultDiv.className = 'info';
+            resultDiv.innerText = '⏳ Sedang memproses... Mohon tunggu...';
+            submitButton.disabled = true;
+
+            try {
+                const response = await fetch('/api/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ serverName, ram, secretKey })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Terjadi kesalahan');
+                }
+
+                // Jika sukses
+                resultDiv.className = 'success';
+                resultDiv.innerHTML = `
+                    <h4>✅ Semua Berhasil Disiapkan!</h4>
+                    <p><strong>URL Panel:</strong> ${data.panelURL}</p>
+                    <hr>
+                    <p><strong>Username:</strong> ${data.user.username}</p>
+                    <p><strong>Email:</strong> ${data.user.email}</p>
+                    <p><strong>Password:</strong> ${data.password}</p>
+                    <hr>
+                    <p><strong>Nama Server:</strong> ${data.server.name}</p>
+                    <p><strong>RAM:</strong> ${data.server.limits.memory} MB</p>
+                `;
+                form.reset();
+
+            } catch (error) {
+                // Jika gagal
+                resultDiv.className = 'error';
+                resultDiv.innerText = `❌ Gagal: ${error.message}`;
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
