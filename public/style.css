@@ -1,44 +1,102 @@
 /* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-/* Aturan dasar dan Background Animasi */
+/* ======================================= */
+/* EFEK BACKGROUND BARU: BINTANG KELAP-KELIP */
+/* ======================================= */
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    padding: 20px;
+    padding: 80px 20px 20px 20px; 
     box-sizing: border-box;
-
-    /* == ANIMATED GRADIENT BACKGROUND == */
-    background: linear-gradient(-45deg, #6a11cb, #2575fc, #ec008c, #fc6767);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    
+    background-color: #000; /* Background hitam */
+    position: relative;
 }
 
-/* Keyframes untuk animasi background */
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* Layer Bintang */
+.stars, .twinkling {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: -1; /* Pastikan di belakang konten */
 }
+
+.stars {
+    background: #000 url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+    background-size: 100px 100px;
+}
+
+.twinkling {
+    background: transparent url('https://www.transparenttextures.com/patterns/tiny-v.png') repeat;
+    background-size: 1000px 1000px;
+    animation: move-twink-back 200s linear infinite;
+}
+
+@keyframes move-twink-back {
+    from { background-position: 0 0; }
+    to { background-position: -10000px 5000px; }
+}
+/* ======================================= */
+/* AKHIR EFEK BACKGROUND BARU            */
+/* ======================================= */
+
+
+/* ======================================= */
+/* STYLE UNTUK JAM REAL-TIME        */
+/* ======================================= */
+#realtime-clock {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 100;
+    
+    box-shadow: 0 0 5px #00e6e6, 0 0 10px #00e6e6;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 5px #00e6e6, 0 0 10px #00e6e6, 0 0 15px #00e6e6;
+    }
+    to {
+        box-shadow: 0 0 10px #fff, 0 0 20px #00e6e6, 0 0 30px #00e6e6;
+    }
+}
+
 
 /* Container / Card Utama dengan Efek Kaca */
 .container {
-    /* Efek Glassmorphism */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     
     padding: 2rem;
     border-radius: 16px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5);
     width: 100%;
     max-width: 500px;
-    color: #ffffff; /* Ubah teks jadi putih */
+    color: #ffffff;
+    z-index: 1;
 }
 
 h2 {
@@ -46,84 +104,51 @@ h2 {
     color: #ffffff;
     margin-top: 0;
     font-weight: 700;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
 label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #f0f0f0; /* Label juga dibuat lebih terang */
+    color: #f0f0f0;
 }
 
-/* Input field yang diperbarui */
+/* ======================================= */
+/* INPUT FIELD (SELECT DITAMBAHKAN)      */
+/* ======================================= */
 input[type="text"],
 input[type="password"],
-select {
+select { /* TAMBAHKAN 'select' DI SINI */
     width: 100%;
     padding: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     box-sizing: border-box;
     margin-bottom: 1rem;
     color: #ffffff;
     font-size: 1rem;
+    font-family: 'Poppins', sans-serif; /* Pastikan font sama */
 }
-/* Placeholder text color */
-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+input::placeholder { color: rgba(255, 255, 255, 0.5); }
+
+/* Style untuk option di dalam dropdown */
+select option {
+    background: #222; /* Background gelap untuk list */
+    color: #fff;
 }
-/* Hilangkan dropdown, karena sudah diganti */
-select {
-    display: none;
+
+/* Style untuk placeholder dropdown */
+select:required:invalid {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 
 /* ======================================= */
-/* STYLE BARU UNTUK PILIHAN RAM          */
+/* STYLE RAM (BLOK .ram-options DIHAPUS)   */
 /* ======================================= */
-.ram-options {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-    gap: 8px; /* Jarak antar tombol */
-}
-
-/* Sembunyikan radio button aslinya */
-.ram-options input[type="radio"] {
-    display: none;
-}
-
-/* Style labelnya sebagai tombol "Pill" */
-.ram-options label {
-    display: inline-block;
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: 400;
-    color: #f0f0f0;
-    margin-bottom: 0; /* Override label default */
-}
-
-/* Style saat tombol di-hover */
-.ram-options label:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-/* Style saat tombol DIPILIH (checked) */
-.ram-options input[type="radio"]:checked + label {
-    background: #ffffff;
-    color: #007bff; /* Warna teks jadi biru */
-    border-color: #ffffff;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-/* ======================================= */
-/* AKHIR STYLE RAM                       */
-/* ======================================= */
+/* (Semua style .ram-options, input[type="radio"], dll. sudah dihapus) */
 
 
 /* Tombol Submit */
@@ -132,22 +157,18 @@ button {
     padding: 0.85rem;
     border: none;
     border-radius: 8px;
-    background-color: #ffffff; /* Tombol utama putih */
-    color: #007bff; /* Teks biru */
+    background-color: #4A90E2;
+    color: #ffffff;
     font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 1rem;
 }
-button:disabled {
-    background-color: #cccccc;
-    color: #888888;
-    cursor: not-allowed;
-}
+button:disabled { background-color: #7ab3f0; color: #ffffff; cursor: not-allowed; }
 button:hover:not(:disabled) {
-    background-color: #f0f0f0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #357ABD;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
 }
 
@@ -157,10 +178,132 @@ button:hover:not(:disabled) {
     padding: 1.25rem;
     border-radius: 8px;
     word-wrap: break-word;
-    color: #333; /* Teks di dalam box hasil tetap gelap */
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
-#result.info { background-color: #e6f7ff; border: 1px solid #b3e0ff; color: #0056b3; }
-#result.success { background-color: #e6ffed; border: 1px solid #b3ffc6; color: #006421; }
-#result.error { background-color: #ffe6e6; border: 1px solid #ffb3b3; color: #c40000; }
-#result hr { border: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); margin: 0.5rem 0; }
+#result.info { background-color: rgba(106, 17, 203, 0.3); border: 1px solid rgba(106, 17, 203, 0.5); }
+#result.success { background-color: rgba(37, 117, 252, 0.3); border: 1px solid rgba(37, 117, 252, 0.5); }
+#result.error { background-color: rgba(236, 0, 140, 0.3); border: 1px solid rgba(236, 0, 140, 0.5); }
+#result hr { border: 0; border-top: 1px solid rgba(255, 255, 255, 0.2); margin: 0.5rem 0; }
 #result p { margin: 0.5rem 0; }
+#result h4 { color: #ffffff; margin-top: 0; }
+
+
+/* ======================================= */
+/* STYLE UNTUK DASHBOARD PRODUK       */
+/* ======================================= */
+.product-dashboard {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 700px;
+    color: #ffffff;
+    margin-top: 2rem;
+    z-index: 1;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.product-item {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 15px rgba(106, 17, 203, 0.5);
+}
+
+.product-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #f0f0f0;
+    margin-bottom: 0.5rem;
+}
+
+.product-price {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #61FFB0;
+    text-shadow: 0 0 8px rgba(97, 255, 176, 0.7);
+}
+
+/* ======================================= */
+/* STYLE UNTUK TOMBOL WHATSAPP        */
+/* ======================================= */
+.whatsapp-fab {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25D366;
+    color: #FFF;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    transition: all 0.3s ease;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.whatsapp-fab:hover {
+    background-color: #1DAE56;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Media Queries untuk Responsif */
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+    .container, .product-dashboard {
+        padding: 1.5rem;
+    }
+    #realtime-clock {
+        font-size: 1.2rem;
+        padding: 8px 15px;
+        top: 15px;
+        right: 15px;
+    }
+    .whatsapp-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+    .container, .product-dashboard {
+        max-width: 95%;
+    }
+    body {
+        padding-top: 70px;
+    }
+}
