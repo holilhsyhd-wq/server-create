@@ -5,11 +5,13 @@
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Ubah ke kolom agar dashboard bisa di bawah */
+    justify-content: flex-start; /* Mulai dari atas */
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    padding: 20px;
+    /* Beri padding agar konten tidak mentok & ada ruang untuk jam */
+    padding: 80px 20px 20px 20px; 
     box-sizing: border-box;
 
     /* == ANIMATED GRADIENT BACKGROUND == */
@@ -25,9 +27,41 @@ body {
     100% { background-position: 0% 50%; }
 }
 
+/* ======================================= */
+/* STYLE BARU UNTUK JAM REAL-TIME        */
+/* ======================================= */
+#realtime-clock {
+    position: fixed; /* Tetap di layar saat scroll */
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 100; /* Pastikan di atas elemen lain */
+    
+    /* Animasi G glowing "menyala" */
+    box-shadow: 0 0 5px #00e6e6, 0 0 10px #00e6e6;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* Keyframes untuk animasi jam "menyala" */
+@keyframes glow {
+    from {
+        box-shadow: 0 0 5px #00e6e6, 0 0 10px #00e6e6, 0 0 15px #00e6e6;
+    }
+    to {
+        box-shadow: 0 0 10px #fff, 0 0 20px #00e6e6, 0 0 30px #00e6e6;
+    }
+}
+
+
 /* Container / Card Utama dengan Efek Kaca */
 .container {
-    /* Efek Glassmorphism */
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -38,7 +72,8 @@ body {
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
     width: 100%;
     max-width: 500px;
-    color: #ffffff; /* Ubah teks jadi putih */
+    color: #ffffff;
+    z-index: 1; /* Pastikan di bawah jam */
 }
 
 h2 {
@@ -52,13 +87,12 @@ label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #f0f0f0; /* Label juga dibuat lebih terang */
+    color: #f0f0f0;
 }
 
 /* Input field yang diperbarui */
 input[type="text"],
-input[type="password"],
-select {
+input[type="password"] {
     width: 100%;
     padding: 0.85rem;
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -69,32 +103,16 @@ select {
     color: #ffffff;
     font-size: 1rem;
 }
-/* Placeholder text color */
-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-/* Hilangkan dropdown, karena sudah diganti */
-select {
-    display: none;
-}
+input::placeholder { color: rgba(255, 255, 255, 0.6); }
 
-
-/* ======================================= */
-/* STYLE BARU UNTUK PILIHAN RAM          */
-/* ======================================= */
+/* STYLE BARU UNTUK PILIHAN RAM */
 .ram-options {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 1rem;
-    gap: 8px; /* Jarak antar tombol */
+    gap: 8px;
 }
-
-/* Sembunyikan radio button aslinya */
-.ram-options input[type="radio"] {
-    display: none;
-}
-
-/* Style labelnya sebagai tombol "Pill" */
+.ram-options input[type="radio"] { display: none; }
 .ram-options label {
     display: inline-block;
     padding: 8px 16px;
@@ -105,26 +123,16 @@ select {
     transition: all 0.2s ease;
     font-weight: 400;
     color: #f0f0f0;
-    margin-bottom: 0; /* Override label default */
+    margin-bottom: 0;
 }
-
-/* Style saat tombol di-hover */
-.ram-options label:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-/* Style saat tombol DIPILIH (checked) */
+.ram-options label:hover { background: rgba(255, 255, 255, 0.3); }
 .ram-options input[type="radio"]:checked + label {
     background: #ffffff;
-    color: #007bff; /* Warna teks jadi biru */
+    color: #007bff;
     border-color: #ffffff;
     font-weight: 600;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
-/* ======================================= */
-/* AKHIR STYLE RAM                       */
-/* ======================================= */
-
 
 /* Tombol Submit */
 button {
@@ -132,19 +140,15 @@ button {
     padding: 0.85rem;
     border: none;
     border-radius: 8px;
-    background-color: #ffffff; /* Tombol utama putih */
-    color: #007bff; /* Teks biru */
+    background-color: #ffffff;
+    color: #007bff;
     font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 1rem;
 }
-button:disabled {
-    background-color: #cccccc;
-    color: #888888;
-    cursor: not-allowed;
-}
+button:disabled { background-color: #cccccc; color: #888888; cursor: not-allowed; }
 button:hover:not(:disabled) {
     background-color: #f0f0f0;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -157,10 +161,95 @@ button:hover:not(:disabled) {
     padding: 1.25rem;
     border-radius: 8px;
     word-wrap: break-word;
-    color: #333; /* Teks di dalam box hasil tetap gelap */
+    color: #333;
 }
 #result.info { background-color: #e6f7ff; border: 1px solid #b3e0ff; color: #0056b3; }
 #result.success { background-color: #e6ffed; border: 1px solid #b3ffc6; color: #006421; }
 #result.error { background-color: #ffe6e6; border: 1px solid #ffb3b3; color: #c40000; }
 #result hr { border: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); margin: 0.5rem 0; }
 #result p { margin: 0.5rem 0; }
+
+/* ======================================= */
+/* STYLE BARU UNTUK DASHBOARD PRODUK       */
+/* ======================================= */
+.product-dashboard {
+    /* Gunakan style glassmorphism yang sama */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 700px; /* Buat lebih lebar dari form */
+    color: #ffffff;
+    margin-top: 2rem; /* Jarak dari form */
+    z-index: 1;
+}
+
+.product-grid {
+    display: grid;
+    /* Grid responsif: 2 kolom di layar sedang, 3 di layar lebar */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.product-item {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.product-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #f0f0f0;
+    margin-bottom: 0.5rem;
+}
+
+.product-price {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #61FFB0; /* Warna hijau neon untuk harga */
+}
+
+/* ======================================= */
+/* STYLE BARU UNTUK TOMBOL WHATSAPP        */
+/* ======================================= */
+.whatsapp-fab {
+    position: fixed; /* Mengambang */
+    width: 60px;
+    height: 60px;
+    bottom: 30px;
+    right: 30px;
+    background-color: #25D366; /* Warna hijau WhatsApp */
+    color: #FFF;
+    border-radius: 50%; /* Bulat sempurna */
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    transition: all 0.3s ease;
+    
+    /* Untuk memposisikan ikon di tengah */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none; /* Hilangkan garis bawah link */
+}
+
+/* Efek saat di-hover */
+.whatsapp-fab:hover {
+    background-color: #1DAE56; /* Warna hijau lebih gelap */
+    transform: translateY(-5px); /* Sedikit terangkat */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
