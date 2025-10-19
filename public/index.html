@@ -7,10 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div id="realtime-clock">
+        <span id="clock-time">00:00:00</span>
+    </div>
 
     <div class="container">
         <h2>Create Server</h2>
@@ -23,34 +27,26 @@
             <div class="ram-options">
                 <input type="radio" id="ram1" name="ram" value="1024" required>
                 <label for="ram1">1 GB</label>
-
                 <input type="radio" id="ram2" name="ram" value="2048">
                 <label for="ram2">2 GB</label>
-
                 <input type="radio" id="ram3" name="ram" value="3072">
                 <label for="ram3">3 GB</label>
-
                 <input type="radio" id="ram4" name="ram" value="4096">
                 <label for="ram4">4 GB</label>
-
                 <input type="radio" id="ram5" name="ram" value="5120">
                 <label for="ram5">5 GB</label>
-
                 <input type="radio" id="ram6" name="ram" value="6144">
                 <label for="ram6">6 GB</label>
-
                 <input type="radio" id="ram7" name="ram" value="7192">
                 <label for="ram7">7 GB</label>
-
                 <input type="radio" id="ram8" name="ram" value="8192">
                 <label for="ram8">8 GB</label>
-
                 <input type="radio" id="ram9" name="ram" value="9216">
                 <label for="ram9">9 GB</label>
-
                 <input type="radio" id="ram0" name="ram" value="0">
                 <label for="ram0">Unlimited</label>
             </div>
+
             <label for="secretKey">Secret Key:</label>
             <input type="password" id="secretKey" name="secretKey" placeholder="Masukkan Secret Key Anda" required>
             
@@ -60,52 +56,103 @@
         <div id="result"></div>
     </div>
 
+    <div class="product-dashboard">
+        <h2>Barmods Product List</h2>
+        <div class="product-grid">
+            <div class="product-item">
+                <div class="product-name">CapCut Premium</div>
+                <div class="product-price">7k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">Spotify Premium</div>
+                <div class="product-price">25k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">YT Premium</div>
+                <div class="product-price">20k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">Vidio Premium</div>
+                <div class="product-price">25k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">Netflix Premium</div>
+                <div class="product-price">30k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">Murid Hack Kuota</div>
+                <div class="product-price">20k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">Followers IG (100)</div>
+                <div class="product-price">5k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">Followers TikTok (100)</div>
+                <div class="product-price">5k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">Like IG (100)</div>
+                <div class="product-price">2k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">Like TikTok (100)</div>
+                <div class="product-price">2k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">Viewer IG (1000)</div>
+                <div class="product-price">3k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">Viewer TikTok (1000)</div>
+                <div class="product-price">4k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">Tracking Camera (1 bln)</div>
+                <div class="product-price">20k</div>
+            </div>
+            <div class="product-item">
+                <div class="product-name">APK RAT</div>
+                <div class="product-price">60k</div>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/6283877842721" class="whatsapp-fab" target="_blank" title="Contact Admin / Order">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <script>
         document.getElementById('createServerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-
             const form = e.target;
             const resultDiv = document.getElementById('result');
             const submitButton = document.getElementById('submitButton');
-
-            // Logika untuk mengambil nilai RAM dari radio button
-            // tidak perlu diubah, 'form.ram.value' akan otomatis
-            // mengambil nilai dari radio button yang terpilih.
             const serverName = form.serverName.value;
             const ram = form.ram.value;
             const secretKey = form.secretKey.value;
-
             resultDiv.className = 'info';
             resultDiv.innerText = '⏳ Sedang memproses... Mohon tunggu...';
             submitButton.disabled = true;
-
             try {
                 const response = await fetch('/api/create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ serverName, ram, secretKey })
                 });
-
                 const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || 'Terjadi kesalahan');
-                }
-
+                if (!response.ok) throw new Error(data.error || 'Terjadi kesalahan');
                 resultDiv.className = 'success';
                 resultDiv.innerHTML = `
                     <h4>✅ Semua Berhasil Disiapkan!</h4>
-                    <p><strong>URL Panel:</strong> ${data.panelURL}</p>
-                    <hr>
+                    <p><strong>URL Panel:</strong> ${data.panelURL}</p><hr>
                     <p><strong>Username:</strong> ${data.user.username}</p>
                     <p><strong>Email:</strong> ${data.user.email}</p>
-                    <p><strong>Password:</strong> ${data.password}</p>
-                    <hr>
+                    <p><strong>Password:</strong> ${data.password}</p><hr>
                     <p><strong>Nama Server:</strong> ${data.server.name}</p>
                     <p><strong>RAM:</strong> ${data.server.limits.memory} MB</p>
                 `;
                 form.reset();
-
             } catch (error) {
                 resultDiv.className = 'error';
                 resultDiv.innerText = `❌ Gagal: ${error.message}`;
@@ -113,6 +160,21 @@
                 submitButton.disabled = false;
             }
         });
+    </script>
+
+    <script>
+        function updateClock() {
+            const clockElement = document.getElementById('clock-time');
+            if (clockElement) {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
     </script>
 </body>
 </html>
