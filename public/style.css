@@ -1,55 +1,90 @@
 /* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-/* Aturan dasar dan Background Animasi */
+/* ======================================= */
+/* EFEK BACKGROUND BARU: BINTANG KELAP-KELIP */
+/* ======================================= */
 body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     display: flex;
-    flex-direction: column; /* Ubah ke kolom agar dashboard bisa di bawah */
-    justify-content: flex-start; /* Mulai dari atas */
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    /* Beri padding agar konten tidak mentok & ada ruang untuk jam */
     padding: 80px 20px 20px 20px; 
     box-sizing: border-box;
-
-    /* == ANIMATED GRADIENT BACKGROUND == */
-    background: linear-gradient(-45deg, #6a11cb, #2575fc, #ec008c, #fc6767);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    
+    background-color: #000; /* Background hitam */
+    overflow: hidden; /* Penting agar tidak ada scrollbar dari efek */
+    position: relative; /* Untuk positioning elemen background */
 }
 
-/* Keyframes untuk animasi background */
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* Layer Bintang */
+.stars, .twinkling, .clouds {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: -1; /* Pastikan di belakang konten */
 }
+
+.stars {
+    background: #000 url('https://www.transparenttextures.com/patterns/stardust.png') repeat; /* Atau bisa pakai custom star image */
+    background-size: 100px 100px; /* Ukuran bintang */
+}
+
+.twinkling {
+    background: transparent url('https://www.transparenttextures.com/patterns/tiny-v.png') repeat; /* Atau bisa pakai custom twinkle image */
+    background-size: 1000px 1000px; /* Lebih besar untuk efek kerlap-kerlip */
+    animation: move-twink-back 200s linear infinite;
+}
+
+.clouds {
+    background: transparent url('https://www.transparenttextures.com/patterns/escheresque-dark.png') repeat; /* Atau bisa pakai custom cloud image */
+    opacity: 0.2; /* Lebih transparan */
+    animation: move-clouds-back 200s linear infinite;
+}
+
+@keyframes move-twink-back {
+    from { background-position: 0 0; }
+    to { background-position: -10000px 5000px; } /* Gerak bintang */
+}
+
+@keyframes move-clouds-back {
+    from { background-position: 0 0; }
+    to { background-position: 10000px 0; } /* Gerak awan */
+}
+/* ======================================= */
+/* AKHIR EFEK BACKGROUND BARU            */
+/* ======================================= */
+
 
 /* ======================================= */
-/* STYLE BARU UNTUK JAM REAL-TIME        */
+/* STYLE UNTUK JAM REAL-TIME        */
 /* ======================================= */
 #realtime-clock {
-    position: fixed; /* Tetap di layar saat scroll */
+    position: fixed;
     top: 20px;
     right: 20px;
     padding: 10px 20px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6); /* Lebih gelap */
     color: #fff;
     font-family: 'Consolas', 'Courier New', monospace;
     font-size: 1.5rem;
     font-weight: 700;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    z-index: 100; /* Pastikan di atas elemen lain */
+    z-index: 100;
     
-    /* Animasi G glowing "menyala" */
     box-shadow: 0 0 5px #00e6e6, 0 0 10px #00e6e6;
     animation: glow 2s ease-in-out infinite alternate;
 }
 
-/* Keyframes untuk animasi jam "menyala" */
 @keyframes glow {
     from {
         box-shadow: 0 0 5px #00e6e6, 0 0 10px #00e6e6, 0 0 15px #00e6e6;
@@ -62,18 +97,18 @@ body {
 
 /* Container / Card Utama dengan Efek Kaca */
 .container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08); /* Sedikit lebih transparan */
+    backdrop-filter: blur(15px); /* Blur lebih tinggi */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Border lebih tipis */
     
     padding: 2rem;
     border-radius: 16px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); /* Shadow lebih gelap */
     width: 100%;
     max-width: 500px;
     color: #ffffff;
-    z-index: 1; /* Pastikan di bawah jam */
+    z-index: 1;
 }
 
 h2 {
@@ -81,6 +116,7 @@ h2 {
     color: #ffffff;
     margin-top: 0;
     font-weight: 700;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); /* Sedikit efek menyala */
 }
 
 label {
@@ -95,17 +131,17 @@ input[type="text"],
 input[type="password"] {
     width: 100%;
     padding: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1); /* Lebih transparan */
     border-radius: 8px;
     box-sizing: border-box;
     margin-bottom: 1rem;
     color: #ffffff;
     font-size: 1rem;
 }
-input::placeholder { color: rgba(255, 255, 255, 0.6); }
+input::placeholder { color: rgba(255, 255, 255, 0.5); } /* Placeholder lebih transparan */
 
-/* STYLE BARU UNTUK PILIHAN RAM */
+/* STYLE UNTUK PILIHAN RAM */
 .ram-options {
     display: flex;
     flex-wrap: wrap;
@@ -116,8 +152,8 @@ input::placeholder { color: rgba(255, 255, 255, 0.6); }
 .ram-options label {
     display: inline-block;
     padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08); /* Lebih transparan */
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -125,13 +161,13 @@ input::placeholder { color: rgba(255, 255, 255, 0.6); }
     color: #f0f0f0;
     margin-bottom: 0;
 }
-.ram-options label:hover { background: rgba(255, 255, 255, 0.3); }
+.ram-options label:hover { background: rgba(255, 255, 255, 0.2); }
 .ram-options input[type="radio"]:checked + label {
-    background: #ffffff;
-    color: #007bff;
-    border-color: #ffffff;
+    background: #4A90E2; /* Warna biru lebih kuat saat dipilih */
+    color: #ffffff;
+    border-color: #4A90E2;
     font-weight: 600;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Tombol Submit */
@@ -140,18 +176,18 @@ button {
     padding: 0.85rem;
     border: none;
     border-radius: 8px;
-    background-color: #ffffff;
-    color: #007bff;
+    background-color: #4A90E2; /* Warna biru */
+    color: #ffffff;
     font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 1rem;
 }
-button:disabled { background-color: #cccccc; color: #888888; cursor: not-allowed; }
+button:disabled { background-color: #7ab3f0; color: #ffffff; cursor: not-allowed; }
 button:hover:not(:disabled) {
-    background-color: #f0f0f0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #357ABD; /* Biru lebih gelap saat hover */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
 }
 
@@ -161,42 +197,44 @@ button:hover:not(:disabled) {
     padding: 1.25rem;
     border-radius: 8px;
     word-wrap: break-word;
-    color: #333;
+    color: #ffffff; /* Ubah warna teks hasil menjadi putih */
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
-#result.info { background-color: #e6f7ff; border: 1px solid #b3e0ff; color: #0056b3; }
-#result.success { background-color: #e6ffed; border: 1px solid #b3ffc6; color: #006421; }
-#result.error { background-color: #ffe6e6; border: 1px solid #ffb3b3; color: #c40000; }
-#result hr { border: 0; border-top: 1px solid rgba(0, 0, 0, 0.1); margin: 0.5rem 0; }
+#result.info { background-color: rgba(106, 17, 203, 0.3); border: 1px solid rgba(106, 17, 203, 0.5); }
+#result.success { background-color: rgba(37, 117, 252, 0.3); border: 1px solid rgba(37, 117, 252, 0.5); }
+#result.error { background-color: rgba(236, 0, 140, 0.3); border: 1px solid rgba(236, 0, 140, 0.5); }
+#result hr { border: 0; border-top: 1px solid rgba(255, 255, 255, 0.2); margin: 0.5rem 0; }
 #result p { margin: 0.5rem 0; }
+#result h4 { color: #ffffff; margin-top: 0; }
+
 
 /* ======================================= */
-/* STYLE BARU UNTUK DASHBOARD PRODUK       */
+/* STYLE UNTUK DASHBOARD PRODUK       */
 /* ======================================= */
 .product-dashboard {
-    /* Gunakan style glassmorphism yang sama */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     padding: 2rem;
     border-radius: 16px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5);
     width: 100%;
-    max-width: 700px; /* Buat lebih lebar dari form */
+    max-width: 700px;
     color: #ffffff;
-    margin-top: 2rem; /* Jarak dari form */
+    margin-top: 2rem;
     z-index: 1;
 }
 
 .product-grid {
     display: grid;
-    /* Grid responsif: 2 kolom di layar sedang, 3 di layar lebar */
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
 }
 
 .product-item {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.3); /* Lebih gelap */
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1rem;
     border-radius: 10px;
@@ -206,7 +244,8 @@ button:hover:not(:disabled) {
 
 .product-item:hover {
     transform: translateY(-5px);
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 15px rgba(106, 17, 203, 0.5); /* Efek glow kecil saat hover */
 }
 
 .product-name {
@@ -220,36 +259,70 @@ button:hover:not(:disabled) {
     font-weight: 700;
     font-size: 1.3rem;
     color: #61FFB0; /* Warna hijau neon untuk harga */
+    text-shadow: 0 0 8px rgba(97, 255, 176, 0.7); /* Efek glow pada harga */
 }
 
 /* ======================================= */
-/* STYLE BARU UNTUK TOMBOL WHATSAPP        */
+/* STYLE UNTUK TOMBOL WHATSAPP        */
 /* ======================================= */
 .whatsapp-fab {
-    position: fixed; /* Mengambang */
+    position: fixed;
     width: 60px;
     height: 60px;
     bottom: 30px;
     right: 30px;
-    background-color: #25D366; /* Warna hijau WhatsApp */
+    background-color: #25D366;
     color: #FFF;
-    border-radius: 50%; /* Bulat sempurna */
+    border-radius: 50%;
     text-align: center;
     font-size: 30px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     z-index: 100;
     transition: all 0.3s ease;
     
-    /* Untuk memposisikan ikon di tengah */
     display: flex;
     justify-content: center;
     align-items: center;
-    text-decoration: none; /* Hilangkan garis bawah link */
+    text-decoration: none;
 }
 
-/* Efek saat di-hover */
 .whatsapp-fab:hover {
-    background-color: #1DAE56; /* Warna hijau lebih gelap */
-    transform: translateY(-5px); /* Sedikit terangkat */
+    background-color: #1DAE56;
+    transform: translateY(-5px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Media Queries untuk Responsif */
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* 2 kolom di layar kecil */
+    }
+    .container, .product-dashboard {
+        padding: 1.5rem;
+    }
+    #realtime-clock {
+        font-size: 1.2rem;
+        padding: 8px 15px;
+        top: 15px;
+        right: 15px;
+    }
+    .whatsapp-fab {
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr; /* 1 kolom di layar sangat kecil */
+    }
+    .container, .product-dashboard {
+        max-width: 95%; /* Lebih lebar di layar kecil */
+    }
+    body {
+        padding-top: 70px; /* Sesuaikan padding body */
+    }
 }
