@@ -40,6 +40,7 @@
                 <option value="9216">9 GB</option>
                 <option value="0">Unlimited</option>
             </select>
+
             <label for="secretKey">Secret Key:</label>
             <input type="password" id="secretKey" name="secretKey" placeholder="Masukkan Secret Key Anda" required>
             
@@ -47,68 +48,6 @@
         </form>
         
         <div id="result"></div>
-    </div>
-
-    <div class="product-dashboard">
-        <h2>Barmods Product List</h2>
-        <div class="product-grid">
-            <div class="product-item">
-                <div class="product-name">CapCut Premium</div>
-                <div class="product-price">7k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">Spotify Premium</div>
-                <div class="product-price">25k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">YT Premium</div>
-                <div class="product-price">20k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">Vidio Premium</div>
-                <div class="product-price">25k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">Netflix Premium</div>
-                <div class="product-price">30k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">Murid Hack Kuota</div>
-                <div class="product-price">20k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">Followers IG (100)</div>
-                <div class="product-price">5k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">Followers TikTok (100)</div>
-                <div class="product-price">5k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">Like IG (100)</div>
-                <div class="product-price">2k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">Like TikTok (100)</div>
-                <div class="product-price">2k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">Viewer IG (1000)</div>
-                <div class="product-price">3k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">Viewer TikTok (1000)</div>
-                <div class="product-price">4k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">Tracking Camera (1 bln)</div>
-                <div class="product-price">20k</div>
-            </div>
-            <div class="product-item">
-                <div class="product-name">APK RAT</div>
-                <div class="product-price">60k</div>
-            </div>
-        </div>
     </div>
 
     <a href="https://wa.me/6283877842721" class="whatsapp-fab" target="_blank" title="Contact Admin / Order">
@@ -145,9 +84,8 @@
                     <p><strong>Nama Server:</strong> ${data.server.name}</p>
                     <p><strong>RAM:</strong> ${data.server.limits.memory} MB</p>
                 `;
-                // Reset form dan set dropdown kembali ke placeholder
                 form.reset();
-                form.ram.value = ""; // Untuk placeholder
+                form.ram.value = ""; 
             } catch (error) {
                 resultDiv.className = 'error';
                 resultDiv.innerText = `❌ Gagal: ${error.message}`;
