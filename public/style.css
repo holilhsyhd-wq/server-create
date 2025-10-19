@@ -16,7 +16,7 @@ body {
     box-sizing: border-box;
     
     background-color: #000; /* Background hitam */
-    overflow: hidden; /* Penting agar tidak ada scrollbar dari efek */
+    /* overflow: hidden; <-- BARIS INI DIHAPUS UNTUK MEMPERBAIKI SCROLL */
     position: relative; /* Untuk positioning elemen background */
 }
 
@@ -34,30 +34,30 @@ body {
 }
 
 .stars {
-    background: #000 url('https://www.transparenttextures.com/patterns/stardust.png') repeat; /* Atau bisa pakai custom star image */
-    background-size: 100px 100px; /* Ukuran bintang */
+    background: #000 url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+    background-size: 100px 100px;
 }
 
 .twinkling {
-    background: transparent url('https://www.transparenttextures.com/patterns/tiny-v.png') repeat; /* Atau bisa pakai custom twinkle image */
-    background-size: 1000px 1000px; /* Lebih besar untuk efek kerlap-kerlip */
+    background: transparent url('https://www.transparenttextures.com/patterns/tiny-v.png') repeat;
+    background-size: 1000px 1000px;
     animation: move-twink-back 200s linear infinite;
 }
 
 .clouds {
-    background: transparent url('https://www.transparenttextures.com/patterns/escheresque-dark.png') repeat; /* Atau bisa pakai custom cloud image */
-    opacity: 0.2; /* Lebih transparan */
+    background: transparent url('https://www.transparenttextures.com/patterns/escheresque-dark.png') repeat;
+    opacity: 0.2;
     animation: move-clouds-back 200s linear infinite;
 }
 
 @keyframes move-twink-back {
     from { background-position: 0 0; }
-    to { background-position: -10000px 5000px; } /* Gerak bintang */
+    to { background-position: -10000px 5000px; }
 }
 
 @keyframes move-clouds-back {
     from { background-position: 0 0; }
-    to { background-position: 10000px 0; } /* Gerak awan */
+    to { background-position: 10000px 0; }
 }
 /* ======================================= */
 /* AKHIR EFEK BACKGROUND BARU            */
@@ -72,7 +72,7 @@ body {
     top: 20px;
     right: 20px;
     padding: 10px 20px;
-    background: rgba(0, 0, 0, 0.6); /* Lebih gelap */
+    background: rgba(0, 0, 0, 0.6);
     color: #fff;
     font-family: 'Consolas', 'Courier New', monospace;
     font-size: 1.5rem;
@@ -97,14 +97,14 @@ body {
 
 /* Container / Card Utama dengan Efek Kaca */
 .container {
-    background: rgba(255, 255, 255, 0.08); /* Sedikit lebih transparan */
-    backdrop-filter: blur(15px); /* Blur lebih tinggi */
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.15); /* Border lebih tipis */
+    border: 1px solid rgba(255, 255, 255, 0.15);
     
     padding: 2rem;
     border-radius: 16px;
-    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); /* Shadow lebih gelap */
+    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5);
     width: 100%;
     max-width: 500px;
     color: #ffffff;
@@ -116,7 +116,7 @@ h2 {
     color: #ffffff;
     margin-top: 0;
     font-weight: 700;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); /* Sedikit efek menyala */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
 label {
@@ -132,14 +132,14 @@ input[type="password"] {
     width: 100%;
     padding: 0.85rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.1); /* Lebih transparan */
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     box-sizing: border-box;
     margin-bottom: 1rem;
     color: #ffffff;
     font-size: 1rem;
 }
-input::placeholder { color: rgba(255, 255, 255, 0.5); } /* Placeholder lebih transparan */
+input::placeholder { color: rgba(255, 255, 255, 0.5); }
 
 /* STYLE UNTUK PILIHAN RAM */
 .ram-options {
@@ -152,7 +152,7 @@ input::placeholder { color: rgba(255, 255, 255, 0.5); } /* Placeholder lebih tra
 .ram-options label {
     display: inline-block;
     padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.08); /* Lebih transparan */
+    background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 20px;
     cursor: pointer;
@@ -163,7 +163,7 @@ input::placeholder { color: rgba(255, 255, 255, 0.5); } /* Placeholder lebih tra
 }
 .ram-options label:hover { background: rgba(255, 255, 255, 0.2); }
 .ram-options input[type="radio"]:checked + label {
-    background: #4A90E2; /* Warna biru lebih kuat saat dipilih */
+    background: #4A90E2;
     color: #ffffff;
     border-color: #4A90E2;
     font-weight: 600;
@@ -176,7 +176,7 @@ button {
     padding: 0.85rem;
     border: none;
     border-radius: 8px;
-    background-color: #4A90E2; /* Warna biru */
+    background-color: #4A90E2;
     color: #ffffff;
     font-size: 1.1rem;
     font-weight: 700;
@@ -186,7 +186,7 @@ button {
 }
 button:disabled { background-color: #7ab3f0; color: #ffffff; cursor: not-allowed; }
 button:hover:not(:disabled) {
-    background-color: #357ABD; /* Biru lebih gelap saat hover */
+    background-color: #357ABD;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
 }
@@ -197,7 +197,7 @@ button:hover:not(:disabled) {
     padding: 1.25rem;
     border-radius: 8px;
     word-wrap: break-word;
-    color: #ffffff; /* Ubah warna teks hasil menjadi putih */
+    color: #ffffff;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -234,7 +234,7 @@ button:hover:not(:disabled) {
 }
 
 .product-item {
-    background: rgba(0, 0, 0, 0.3); /* Lebih gelap */
+    background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1rem;
     border-radius: 10px;
@@ -245,7 +245,7 @@ button:hover:not(:disabled) {
 .product-item:hover {
     transform: translateY(-5px);
     background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 15px rgba(106, 17, 203, 0.5); /* Efek glow kecil saat hover */
+    box-shadow: 0 0 15px rgba(106, 17, 203, 0.5);
 }
 
 .product-name {
@@ -258,8 +258,8 @@ button:hover:not(:disabled) {
 .product-price {
     font-weight: 700;
     font-size: 1.3rem;
-    color: #61FFB0; /* Warna hijau neon untuk harga */
-    text-shadow: 0 0 8px rgba(97, 255, 176, 0.7); /* Efek glow pada harga */
+    color: #61FFB0;
+    text-shadow: 0 0 8px rgba(97, 255, 176, 0.7);
 }
 
 /* ======================================= */
@@ -295,7 +295,7 @@ button:hover:not(:disabled) {
 /* Media Queries untuk Responsif */
 @media (max-width: 768px) {
     .product-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* 2 kolom di layar kecil */
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     }
     .container, .product-dashboard {
         padding: 1.5rem;
@@ -317,12 +317,12 @@ button:hover:not(:disabled) {
 
 @media (max-width: 480px) {
     .product-grid {
-        grid-template-columns: 1fr; /* 1 kolom di layar sangat kecil */
+        grid-template-columns: 1fr;
     }
     .container, .product-dashboard {
-        max-width: 95%; /* Lebih lebar di layar kecil */
+        max-width: 95%;
     }
     body {
-        padding-top: 70px; /* Sesuaikan padding body */
+        padding-top: 70px;
     }
 }
