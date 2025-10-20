@@ -20,9 +20,17 @@
     </div>
 
     <div class="container">
-        <h2>create panel by team zeroix</h2>
+        <h2>Create Server</h2>
         <form id="createServerForm">
             
+            <label>Tipe Server:</label>
+            <div class="server-type-options">
+                <input type="radio" id="type_private" name="serverType" value="private" required>
+                <label for="type_private">Private</label>
+                
+                <input type="radio" id="type_public" name="serverType" value="public">
+                <label for="type_public">Public</label>
+            </div>
             <label for="serverName">Nama Server:</label>
             <input type="text" id="serverName" name="serverName" placeholder="Contoh: MyNodeApp" required>
 
@@ -41,7 +49,7 @@
                 <option value="0">Unlimited</option>
             </select>
 
-            <label for="secretKey">SECRET KEY? khusus member zeroix</label>
+            <label for="secretKey">Secret Key:</label>
             <input type="password" id="secretKey" name="secretKey" placeholder="Masukkan Secret Key Anda" required>
             
             <button type="submit" id="submitButton">Buat Server</button>
@@ -60,20 +68,28 @@
             const form = e.target;
             const resultDiv = document.getElementById('result');
             const submitButton = document.getElementById('submitButton');
+
+            // Ambil semua nilai dari form
             const serverName = form.serverName.value;
             const ram = form.ram.value;
             const secretKey = form.secretKey.value;
+            const serverType = form.serverType.value; // <-- Nilai baru (private/public)
+
             resultDiv.className = 'info';
             resultDiv.innerText = '⏳ Sedang memproses... Mohon tunggu...';
             submitButton.disabled = true;
+            
             try {
                 const response = await fetch('/api/create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ serverName, ram, secretKey })
+                    // Kirim serverType ke backend
+                    body: JSON.stringify({ serverName, ram, secretKey, serverType }) 
                 });
+                
                 const data = await response.json();
                 if (!response.ok) throw new Error(data.error || 'Terjadi kesalahan');
+                
                 resultDiv.className = 'success';
                 resultDiv.innerHTML = `
                     <h4>✅ Semua Berhasil Disiapkan!</h4>
