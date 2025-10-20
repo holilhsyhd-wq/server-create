@@ -1,24 +1,31 @@
 const fetch = require('node-fetch');
 
-// 1. AMBIL KONFIGURASI DARI ENVIRONMENT VARIABLES
-// Ini BUKAN lagi file config.js. Anda harus mengatur ini di Vercel.
+// 1. AMBIL KONFIGURASI BARU DARI ENVIRONMENT VARIABLES
 const config = {
-    pterodactyl: {
-        domain: process.env.PTERO_DOMAIN,
-        apiKey: process.env.PTERO_API_KEY,
+    // Config untuk server Private
+    private: {
+        domain: process.env.PTERO_DOMAIN_PRIVATE,
+        apiKey: process.env.PTERO_API_KEY_PRIVATE,
+    },
+    // Config untuk server Public
+    public: {
+        domain: process.env.PTERO_DOMAIN_PUBLIC,
+        apiKey: process.env.PTERO_API_KEY_PUBLIC,
+    },
+    // Pengaturan yang dipakai bersama
+    shared: {
         eggId: parseInt(process.env.PTERO_EGG_ID),
         locationId: parseInt(process.env.PTERO_LOCATION_ID),
-        disk: parseInt(process.env.PTERO_DISK) || 5120, // Default 5GB
-        cpu: parseInt(process.env.PTERO_CPU) || 100     // Default 100%
+        disk: parseInt(process.env.PTERO_DISK) || 5120,
+        cpu: parseInt(process.env.PTERO_CPU) || 100
     },
-    // Ini adalah password untuk melindungi website Anda
     secretKey: process.env.SECRET_KEY 
 };
 
-// 2. SALIN FUNGSI INTI ANDA DARI bot.js
-async function createUser(serverName) {
-    const pterodactyl = config.pterodactyl;
-    const url = `${pterodactyl.domain}/api/application/users`;
+// 2. FUNGSI INTI (DIMODIFIKASI AGAR MENERIMA CONFIG)
+// pteroConfig berisi { domain, apiKey } yang dinamis
+async function createUser(serverName, pteroConfig) {
+    const url = `${pteroConfig.domain}/api/application/users`;
     
     const randomString = Math.random().toString(36).substring(7);
     const email = `${serverName.toLowerCase().replace(/\s+/g, '')}@${randomString}.com`;
@@ -38,7 +45,7 @@ async function createUser(serverName) {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${pterodactyl.apiKey}`,
+                'Authorization': `Bearer ${pteroConfig.apiKey}`, // <-- Menggunakan apiKey dinamis
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
@@ -57,27 +64,27 @@ async function createUser(serverName) {
     }
 }
 
-async function createServer(telegramUserId, serverName, memory, pterodactylUserId) {
-    const pterodactyl = config.pterodactyl;
-    const url = `${pterodactyl.domain}/api/application/servers`;
+// pteroConfig berisi { domain, apiKey }
+// sharedConfig berisi { eggId, locationId, disk, cpu }
+async function createServer(telegramUserId, serverName, memory, pterodactylUserId, pteroConfig, sharedConfig) {
+    const url = `${pteroConfig.domain}/api/application/servers`;
 
     const serverData = {
         name: serverName,
         user: pterodactylUserId,
-        egg: pterodactyl.eggId,
+        egg: sharedConfig.eggId, // <-- Menggunakan shared config
         docker_image: "ghcr.io/parkervcp/yolks:nodejs_18",
         startup: "if [[ -d .git ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ -f /home/container/package.json ]]; then /usr/local/bin/npm install; fi; {{CMD_RUN}}",
         environment: {
-            // Kita tidak punya msg.from.id, jadi kita bisa isi string statis
             USER_ID: telegramUserId || "web_created_user", 
             CMD_RUN: "node index.js"
         },
         limits: {
             memory: parseInt(memory),
             swap: 0,
-            disk: pterodactyl.disk,
+            disk: sharedConfig.disk, // <-- Menggunakan shared config
             io: 500,
-            cpu: pterodactyl.cpu,
+            cpu: sharedConfig.cpu, // <-- Menggunakan shared config
         },
         feature_limits: {
             databases: 1,
@@ -85,7 +92,7 @@ async function createServer(telegramUserId, serverName, memory, pterodactylUserI
             backups: 1
         },
         deploy: {
-            locations: [pterodactyl.locationId],
+            locations: [sharedConfig.locationId], // <-- Menggunakan shared config
             dedicated_ip: false,
             port_range: []
         }
@@ -94,7 +101,7 @@ async function createServer(telegramUserId, serverName, memory, pterodactylUserI
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${pterodactyl.apiKey}`,
+                'Authorization': `Bearer ${pteroConfig.apiKey}`, // <-- Menggunakan apiKey dinamis
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
@@ -114,48 +121,63 @@ async function createServer(telegramUserId, serverName, memory, pterodactylUserI
 }
 
 
-// 3. INI ADALAH FUNGSI UTAMA (HANDLER) UNTUK VERCEl
+// 3. HANDLER UTAMA (DIMODIFIKASI)
 export default async function handler(req, res) {
     
-    // Hanya izinkan metode POST
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
     try {
-        const { serverName, ram, secretKey } = req.body;
+        // Ambil data baru 'serverType' dari body
+        const { serverName, ram, secretKey, serverType } = req.body;
 
-        // Validasi input dasar
-        if (!serverName || !ram || !secretKey) {
-            return res.status(400).json({ error: 'Semua field harus diisi.' });
+        // Validasi input
+        if (!serverName || !ram || !secretKey || !serverType) {
+            return res.status(400).json({ error: 'Semua field (termasuk Tipe Server) harus diisi.' });
         }
         
-        // Proteksi password untuk website Anda
         if (secretKey !== config.secretKey) {
             return res.status(401).json({ error: 'Secret Key salah.' });
         }
 
-        // Langkah 1: Buat pengguna
-        const userResult = await createUser(serverName);
+        // === LOGIKA PEMILIHAN CONFIG BARU ===
+        let pteroConfig;
+        const sharedConfig = config.shared; // Ambil config bersama
+
+        if (serverType === 'private') {
+            pteroConfig = config.private;
+        } else if (serverType === 'public') {
+            pteroConfig = config.public;
+        } else {
+            return res.status(400).json({ error: 'Tipe server tidak valid.' });
+        }
+
+        // Periksa apakah admin sudah mengatur env var untuk tipe yg dipilih
+        if (!pteroConfig.domain || !pteroConfig.apiKey) {
+            return res.status(500).json({ error: `Konfigurasi untuk server '${serverType}' belum diatur oleh admin.` });
+        }
+        // ======================================
+
+        // Langkah 1: Buat pengguna (kirim config yg relevan)
+        const userResult = await createUser(serverName, pteroConfig);
         if (!userResult.success) {
-            // Kirim error spesifik dari Pterodactyl
             return res.status(500).json({ error: `Gagal membuat akun: ${userResult.error}` });
         }
 
         const newUser = userResult.user;
         const newUserPassword = userResult.password;
 
-        // Langkah 2: Buat server
-        const serverResult = await createServer(null, serverName, ram, newUser.id);
+        // Langkah 2: Buat server (kirim config yg relevan)
+        const serverResult = await createServer(null, serverName, ram, newUser.id, pteroConfig, sharedConfig);
         if (!serverResult.success) {
-            // Kirim error spesifik dari Pterodactyl
             return res.status(500).json({ error: `Gagal membuat server: ${serverResult.error}` });
         }
 
-        // Langkah 3: Kirim respon sukses kembali ke browser
+        // Langkah 3: Kirim respon sukses (gunakan domain yg relevan)
         res.status(200).json({
             success: true,
-            panelURL: config.pterodactyl.domain,
+            panelURL: pteroConfig.domain, // <-- Mengirim domain yang benar
             user: newUser,
             password: newUserPassword,
             server: serverResult.data
