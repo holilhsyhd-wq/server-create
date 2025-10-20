@@ -1,9 +1,6 @@
 /* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-/* ======================================= */
-/* SMOOTH SCROLL (SCROLL LENTUR)           */
-/* ======================================= */
 html {
     scroll-behavior: smooth;
 }
@@ -19,15 +16,12 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    /* Beri jarak lebih di bawah agar tidak tertutup tombol WA */
     padding: 80px 20px 100px 20px; 
     box-sizing: border-box;
-    
-    background-color: #000; /* Background hitam */
+    background-color: #000;
     position: relative;
 }
 
-/* Layer Bintang */
 .stars, .twinkling {
     position: fixed;
     top: 0;
@@ -39,18 +33,15 @@ body {
     display: block;
     z-index: -1; 
 }
-
 .stars {
     background: #000 url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
     background-size: 100px 100px;
 }
-
 .twinkling {
     background: transparent url('https://www.transparenttextures.com/patterns/tiny-v.png') repeat;
     background-size: 1000px 1000px;
     animation: move-twink-back 200s linear infinite;
 }
-
 @keyframes move-twink-back {
     from { background-position: 0 0; }
     to { background-position: -10000px 5000px; }
@@ -72,18 +63,12 @@ body {
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     z-index: 100;
-    
     box-shadow: 0 0 5px #00e6e6, 0 0 10px #00e6e6;
     animation: glow 2s ease-in-out infinite alternate;
 }
-
 @keyframes glow {
-    from {
-        box-shadow: 0 0 5px #00e6e6, 0 0 10px #00e6e6, 0 0 15px #00e6e6;
-    }
-    to {
-        box-shadow: 0 0 10px #fff, 0 0 20px #00e6e6, 0 0 30px #00e6e6;
-    }
+    from { box-shadow: 0 0 5px #00e6e6, 0 0 10px #00e6e6, 0 0 15px #00e6e6; }
+    to { box-shadow: 0 0 10px #fff, 0 0 20px #00e6e6, 0 0 30px #00e6e6; }
 }
 
 /* ======================================= */
@@ -94,7 +79,6 @@ body {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    
     padding: 2rem;
     border-radius: 16px;
     box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5);
@@ -120,6 +104,44 @@ label {
 }
 
 /* ======================================= */
+/* STYLE BARU UNTUK TIPE SERVER            */
+/* ======================================= */
+.server-type-options {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    gap: 8px;
+}
+.server-type-options input[type="radio"] { 
+    display: none; /* Sembunyikan radio button asli */
+}
+.server-type-options label {
+    display: inline-block;
+    padding: 10px 16px; /* Dibuat sedikit lebih tinggi */
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px; /* Dibuat kotak agar serasi dgn input */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 400;
+    color: #f0f0f0;
+    margin-bottom: 0;
+    flex-grow: 1; /* Membuat kedua tombol sama lebar */
+    text-align: center;
+}
+.server-type-options label:hover { 
+    background: rgba(255, 255, 255, 0.2); 
+}
+.server-type-options input[type="radio"]:checked + label {
+    background: #61FFB0; /* Warna hijau neon */
+    color: #000; /* Teks hitam agar kontras */
+    border-color: #61FFB0;
+    font-weight: 600;
+    box-shadow: 0 0 15px rgba(97, 255, 176, 0.5);
+}
+/* ======================================= */
+
+/* ======================================= */
 /* INPUT FIELD (TERMASUK DROPDOWN)         */
 /* ======================================= */
 input[type="text"],
@@ -138,13 +160,10 @@ select {
 }
 input::placeholder { color: rgba(255, 255, 255, 0.5); }
 
-/* Style untuk option di dalam dropdown */
 select option {
-    background: #222; /* Background gelap untuk list */
+    background: #222;
     color: #fff;
 }
-
-/* Style untuk placeholder dropdown */
 select:required:invalid {
     color: rgba(255, 255, 255, 0.5);
 }
@@ -191,7 +210,6 @@ button:hover:not(:disabled) {
 #result p { margin: 0.5rem 0; }
 #result h4 { color: #ffffff; margin-top: 0; }
 
-
 /* ======================================= */
 /* STYLE UNTUK TOMBOL WHATSAPP             */
 /* ======================================= */
@@ -209,13 +227,11 @@ button:hover:not(:disabled) {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     z-index: 100;
     transition: all 0.3s ease;
-    
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
 }
-
 .whatsapp-fab:hover {
     background-color: #1DAE56;
     transform: translateY(-5px);
@@ -226,9 +242,7 @@ button:hover:not(:disabled) {
 /* MEDIA QUERIES (RESPONSIVE)              */
 /* ======================================= */
 @media (max-width: 768px) {
-    .container {
-        padding: 1.5rem;
-    }
+    .container { padding: 1.5rem; }
     #realtime-clock {
         font-size: 1.2rem;
         padding: 8px 15px;
@@ -243,12 +257,7 @@ button:hover:not(:disabled) {
         right: 20px;
     }
 }
-
 @media (max-width: 480px) {
-    .container {
-        max-width: 95%;
-    }
-    body {
-        padding-top: 70px;
-    }
+    .container { max-width: 95%; }
+    body { padding-top: 70px; }
 }
