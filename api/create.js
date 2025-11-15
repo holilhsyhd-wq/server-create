@@ -74,10 +74,10 @@ async function createServer(telegramUserId, serverName, memory, pterodactylUserI
         user: pterodactylUserId,
         egg: sharedConfig.eggId, // <-- Menggunakan shared config
         docker_image: "ghcr.io/parkervcp/yolks:nodejs_18",
-        startup: "if [[ -d .git ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ -f /home/container/package.json ]]; then /usr/local/bin/npm install; fi; {{CMD_RUN}}",
+        startup: "if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};",
         environment: {
             USER_ID: telegramUserId || "web_created_user", 
-            CMD_RUN: "node index.js"
+            CMD_RUN: "npm start"
         },
         limits: {
             memory: parseInt(memory),
