@@ -78,7 +78,7 @@ async function createServer(telegramUserId, serverName, memory, pterodactylUserI
 
         environment: {
             USER_ID: telegramUserId || "web_created_user",
-            CMD_RUN: "node index.js",
+            CMD_RUN: "npm start",
 
             // default env tambahan biar langsung kepakai
             AUTO_UPDATE: "1",
